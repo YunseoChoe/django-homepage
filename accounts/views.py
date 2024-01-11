@@ -14,7 +14,6 @@ User = get_user_model()
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializers
 
-
 class LoginAPIView(APIView):
     def post(self, request):
         username = request.data.get('username')

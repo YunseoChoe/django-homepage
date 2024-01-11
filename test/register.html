@@ -22,7 +22,6 @@
     </div>
     
 
-
     <script>
         const username = document.querySelector("#username");
         const password = document.querySelector("#password");
@@ -44,17 +43,15 @@
                 height : height.value,
                 weight : weight.value
             }
-            
+            // fetch(): 요청하는 함수
             fetch("http://localhost:8000/accounts/register/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(request)
-            })//요청하는 함수
+            })
         }
-
-
     </script>
 </body>
 </html>

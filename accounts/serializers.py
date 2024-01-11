@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
 
+# 회원가입
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
