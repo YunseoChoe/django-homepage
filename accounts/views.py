@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate # login했을 때 데이터가 db에 있는 지 확인
 from rest_framework import generics
 from .serializers import UserSerializers
 
@@ -11,9 +11,11 @@ from django.http import HttpResponse
 
 User = get_user_model()
 
+# 회원가입
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserSerializers
 
+# 로그인
 class LoginAPIView(APIView):
     def post(self, request):
         username = request.data.get('username')

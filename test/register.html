@@ -44,12 +44,13 @@
                 weight : weight.value
             }
             // fetch(): 요청하는 함수
-            fetch("http://localhost:8000/accounts/register/", {
+            fetch("http://127.0.0.1:8000/accounts/register/", {
+                // withCredentials: true,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(request)
+                body: JSON.stringify(request) // json형식으로 보냄
             })
         }
     </script>

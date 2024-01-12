@@ -1,3 +1,4 @@
+# 데이터들을 json으로 
 from rest_framework import serializers
 from .models import CustomUser
 
