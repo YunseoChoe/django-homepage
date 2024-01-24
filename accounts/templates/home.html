@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쇼핑몰 홈페이지</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 헤더 스타일 */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* 로고 스타일 */
+        .logo {
+            margin: 0 auto;
+            max-width: 200px;
+        }
+
+        /* 로그인 버튼 스타일 */
+        .login-button {
+            float: right;
+            background-color: #fff;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: -30px;
+        }
+
+        /* 회원가입 버튼 스타일 */
+        .signup-button {
+            float: right;
+            background-color: #fff;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0px;
+            margin-left: 30px;
+        }
+
+        /* 메인 콘텐츠 스타일 */
+        main {
+            padding: 20px;
+        }
+
+        /* 상품 목록 스타일 */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- <img class="logo" src="로고.png" alt="쇼핑몰 로고"> -->
+        <h1>WONDERFIT</h1>
+        <div class="user-buttons">
+            <button class="login-button">로그인</button>
+            <button class="signup-button">회원가입</button>
+        </div>
+    </header>
+
+    <main>
+        <h2>인기 상품</h2>
+        <div class="product-list">
+            <div class="product">
+                <img src="상품1.jpg" alt="상품 1">
+                <h3>상품 1</h3>
+                <p>상품 설명 Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button>구매하기</button>
+            </div>
+            <div class="product">
+                <img src="상품2.jpg" alt="상품 2">
+                <h3>상품 2</h3>
+                <p>상품 설명 Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button>구매하기</button>
+            </div>
+            <div class="product">
+                <img src="상품3.jpg" alt="상품 3">
+                <h3>상품 3</h3>
+                <p>상품 설명 Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <button>구매하기</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>ⓒ 2024 쇼핑몰. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // 로그인 
+        document.querySelector('.login-button').addEventListener('click', function() {
+            window.location.href = '/accounts/custom-login/';
+        });
+
+        // 회원가입
+    </script>
+    
+</body>
+</html>
