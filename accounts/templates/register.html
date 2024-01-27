@@ -5,53 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>register</title>
     <style>
-        .container{
-            border: 3px red solid
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 800px;
+            height: 500px;
+            margin: 50px auto;
+            padding: 50px;
+            background-color: white;
+            border: 10px solid #ccc;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #252525;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <label>username:</label><input id="username" type="id" placeholder="id를 입력해주세요." required><br>
-        <label>password:</label><input id="password" type="password" placeholder="password를 입력해주세요." required><br>
-        <label>email:</label><input id="email" type="email" placeholder="email을 입력해주세요."><br>
-        <label>age:</label><input id="age" type="text" placeholder="나이를 입력해주세요."><br>
-        <label>height:</label><input id="height" type="text" placeholder="키를 입력해주세요."><br>
-        <label>weight:</label><input id="weight" type="text" placeholder="몸무게를 입력해주세요."><br>
-        <button id="button" type="submit">제출</button>
+        <h2>회원가입</h2>
+        <form id="signup-form">
+            <label for="username">ID</label>
+            <input id="username" type="text" placeholder="아이디를 입력해주세요." required>
+
+            <label for="password">PASSWORD</label>
+            <input id="password" type="password" placeholder="비밀번호를 입력해주세요." required>
+
+            <label for="email">E-mail</label>
+            <input id="email" type="email" placeholder="이메일을 입력해주세요.">
+
+            <label for="age">나이</label>
+            <input id="age" type="text" placeholder="나이를 입력해주세요.">
+
+            <label for="height">키</label>
+            <input id="height" type="text" placeholder="키를 입력해주세요.">
+
+            <label for="weight">몸무게</label>
+            <input id="weight" type="text" placeholder="몸무게를 입력해주세요.">
+
+            <button type="submit">회원가입</button>
+        </form>
     </div>
-    
+
     <script>
-        const username = document.querySelector("#username");
-        const password = document.querySelector("#password");
-        const email = document.querySelector("#email");
-        const age = document.querySelector("#age");
-        const height = document.querySelector("#height");
-        const weight = document.getElementById("weight");
+        const signupForm = document.querySelector("#signup-form");
 
-        const signupbutton = document.querySelector("#button");
+        // 회원가입 폼이 제출될 때 실행되는 함수
+        signupForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // 기본 동작인 폼 제출 막기
 
-        // '제출' 버튼이 클릭되었을 때, 입력된 정보를 서버로 전송하는 역할
-        signupbutton.addEventListener("click", sign);
+            const username = document.querySelector("#username").value;
+            const password = document.querySelector("#password").value;
+            const email = document.querySelector("#email").value;
+            const age = document.querySelector("#age").value;
+            const height = document.querySelector("#height").value;
+            const weight = document.querySelector("#weight").value;
 
-        // sign() 함수
-        function sign() {
             const request = {
-                username : username.value,
-                password : password.value,
-                email : email.value,
-                age : age.value,
-                height : height.value,
-                weight : weight.value
-            }
-            // fetch(): 요청하는 함수
+                username: username,
+                password: password,
+                email: email,
+                age: age,
+                height: height,
+                weight: weight
+            };
+
+            // fetch()를 사용하여 서버로 요청 보내기
             fetch("http://127.0.0.1:8000/accounts/register/", {
-                // withCredentials: true,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(request) // json형식으로 보냄
+                body: JSON.stringify(request)
             })
             .then(response => {
                 if (response.ok) {
@@ -63,7 +128,7 @@
             .catch(error => {
                 console.log("오류가 발생했습니다.", error);
             });
-        }
+        });
     </script>
 </body>
 </html>

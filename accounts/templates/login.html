@@ -5,20 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
     <style>
-        .container {
-            margin: 20px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
+
+        .container {
+            width: 800px;
+            height: 500px;
+            margin: 50px auto;
+            padding: 50px;
+            background-color: white;
+            border: 10px solid #ccc;
+            border-radius: 10px;
+            text-align: center;
+        }
+
         label {
             display: block;
             margin-bottom: 5px;
+            font-weight: bold;
         }
+
         input {
-            width: 200px;
+            width: 500px;
+            height: 20px;
             margin-bottom: 10px;
         }
+        
         button {
             padding: 5px 10px;
-            background-color: #007bff;
+            background-color: #252525;
             color: #fff;
             border: none;
             cursor: pointer;
@@ -27,6 +45,7 @@
 </head>
 <body>
     <div class="container">
+        <h2>로그인</h2>
         <label>username:</label><input id="username" type="id" placeholder="id를 입력해주세요." required><br>
         <label>password:</label><input id="password" type="password" placeholder="password 입력해주세요." required><br>
         <button id="button" type="submit">제출</button>
