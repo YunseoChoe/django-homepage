@@ -33,6 +33,18 @@
                 },
                 body: JSON.stringify(request) // json형식으로 보냄
             })
+            .then(response => {
+                if (response.ok) {
+                    // 로그인 성공시 메시지 출력
+                    console.log("로그인에 성공했습니다.");
+                } else {
+                    // 로그인 실패시 메시지 출력
+                    console.log("로그인에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.error("오류 발생:", error);
+            });
         }
     </script>
 </body>
