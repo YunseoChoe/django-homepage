@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        .login_register_button {
+            position: absolute;         /* 요소의 위치를 절대적으로 지정 */
+            top: 0;                     /* 요소를 상단에서 0px 위치에 배치 */
+            right: 0;                   /* 요소를 오른쪽에서 0px 위치에 배치 */ 
+            display: flex;              /* 요소의 자식 요소들을 플렉스 박스로 정렬 */
+            flex-direction: column;     /* 자식 요소들을 세로로 정렬 */
+        }
+        </style>
+</head>
+<body>
+    <h1>최윤서의 홈페이지</h1>
+
+    <!--로그인/회원가입 버튼-->
+    <div class="login_register_button">
+        <a href="../accounts/login.html"><button type="button">로그인</button></a>
+        <a href="../accounts/register.html"><button type="button">회원가입</button></a>
+    </div>
+
+</body>
+</html>
