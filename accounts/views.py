@@ -36,3 +36,10 @@ class LoginAPIView(APIView):
             'refresh_token': str(refresh),                  # 리프레시 토큰
             'access_token': str(refresh.access_token),      # 액세스 토큰
         }, status=status.HTTP_200_OK)
+    
+class UserInfoAPIView(APIView):
+    def get(self, request):
+        user_info = {
+            'username': request.user.username,
+        }
+        return Response(user_info, status=status.HTTP_200_OK)
