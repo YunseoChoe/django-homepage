@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        .accounts_button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>최윤서의 홈페이지</h1>
+
+    <!--게시판 버튼-->
+    <div class="board_button">
+        <a href="../board/board_create.html"><button type="button">글 작성하기</button></a>
+        <a href="../board/board_read.html"><button type="button">글 조회하기</button></a>
+        <a href="../board/board_update.html"><button type="button">글 수정하기</button></a>
+        <a href="../board/board_delete.html"><button type="button">글 삭제하기</button></a>
+    </div>
+
+    <!--로그아웃/마이페이지 버튼-->
+    <div class="accounts_button">
+        <a href="../mainpage/mainpage.html"><button type="button">로그아웃</button></a>
+        <span id="user_id"></span>
+    </div>
+
+    <script>
+        // 사용자 정보 요청 함수
+        function fetchUserInfo(accessToken) {
+            fetch("http://127.0.0.1:8000/accounts/userinfo/", {
+                method: "GET", // GET 메서드로 요청
+                headers: {
+                    "Authorization": `Bearer ${accessToken}` // 헤더에 액세스 토큰 포함
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 사용자 정보 요청이 성공한 경우
+                    return response.json(); // JSON 형식으로 응답을 파싱하여 반환
+                } else {
+                    // 사용자 정보 요청이 실패한 경우
+                    throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+                }
+            })
+            .then(data => {
+                // 응답으로부터 받은 사용자 정보를 처리
+                const username = data.username;
+                console.log("사용자 이름:", username);
+            })
+            .catch(error => {
+                // 오류 발생시
+                console.error("사용자 정보를 가져오는데 오류 발생:", error);
+            });
+        }
+        // 아이디 정보 표시
+        const userIdElement = document.getElementById("user_id");
+        const loggedInUserId = "사용자이름" + userIdElement; // 여기에 실제 사용자 아이디를 가져오는 코드를 작성해야 합니다.
+        userIdElement.textContent = loggedInUserId;
+        fetchUserInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzU3NTE5LCJpYXQiOjE3MDc3NTcyMTksImp0aSI6ImZiOWNkZGUzYjg3NjQxMzdhY2QxMTE2Yjc3ZDAyYjJmIiwidXNlcl9pZCI6N30.k1PktqDuUSyxebVI-1puNIWIHy66Aqtoo1Cz0zvsET8"); // 사용자 정보 요청 함수 호출
+    </script>
+</body>
+</html>

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate # login했을 때 데이터가 db에 있는 지 확인
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import generics
 from .serializers import UserSerializers
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
