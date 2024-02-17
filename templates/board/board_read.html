@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 조회</title>
+</head>
+<body>
+    <div class="container">
+        <label>게시물 번호:</label><input id="boardId" type="number" placeholder="게시물 번호를 입력해주세요." required><br>
+        <button id="button" type="submit">조회</button>
+    </div>
+
+    <!-- 결과를 출력할 div 요소 --> 
+    <div id="result"></div>
+
+    <script>
+        // 게시물 번호를 입력하는 input 요소
+        const boardId = document.querySelector("#boardId");
+        // 조회 버튼
+        const submitButton = document.querySelector("#button");
+        // 결과를 출력할 div 요소
+        const resultDiv = document.querySelector("#result");
+
+        // 조회 버튼에 클릭 이벤트 리스너 추가
+        submitButton.addEventListener("click", boardFetch);
+
+        function boardFetch() {
+            // 입력된 게시물 번호 가져오기
+            const id = boardId.value;
+            // 게시물 조회 API 주소
+            fetch("http://127.0.0.1:8000/board/board_read/" + id + "/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 조회된 게시물 데이터를 이용해 원하는 동작 수행
+                console.log(data);
+                // 결과를 HTML 창에 출력
+                resultDiv.innerHTML = ""; // 이전 결과를 지우기 위해 초기화
+                for (const key in data) {
+                    const resultText = `${key}: ${data[key]}`;
+                    const resultElement = document.createElement("p");
+                    resultElement.textContent = resultText;
+                    resultDiv.appendChild(resultElement);
+                }
+            })
+            .catch(error => {
+                console.error("게시물 조회 중 오류가 발생했습니다:", error);
+            });
+        }
+    </script>
+</body>
+</html>
