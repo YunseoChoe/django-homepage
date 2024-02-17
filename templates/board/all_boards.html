@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체 게시물 조회</title>
+
+    <style>
+        /* css */
+        #result {
+            background-color: rgb(90, 230, 100);
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="result"></div>
+    
+    <script>
+        // 페이지 로드 시 자동으로 함수 실행
+        window.addEventListener('load', all);
+        
+        // 결과를 출력할 div 요소
+        function all() {
+            fetch("http://127.0.0.1:8000/board/all_boards", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }) 
+            .then(response => response.json())
+            .then(data => {
+                // 결과를 화면에 표시
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerText = JSON.stringify(data);
+            })
+        }
+    </script>
+    
+</body>
+</html>

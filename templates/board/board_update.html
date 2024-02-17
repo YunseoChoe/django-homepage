@@ -7,35 +7,50 @@
 </head>
 <body>
     <div class="container">
-        <label>title:</label><input id="title" type="id" placeholder="제목을 입력해주세요." required><br>
-        <label>content:</label><input id="content" type="content" placeholder="내용을 입력해주세요."><br>
-        <label>writer:</label><input id="writer" type="id" placeholder="작성자를 입력해주세요."><br>
+        <label>게시판 번호:</label><input id="boardNumber" type="number" placeholder="게시판 번호를 입력해주세요." required><br>
+        <label>제목:</label><input id="title" type="text" placeholder="제목을 입력해주세요." required><br>
+        <label>내용:</label><input id="content" type="text" placeholder="내용을 입력해주세요."><br>
+        <label>작성자:</label><input id="writer" type="text" placeholder="작성자를 입력해주세요."><br>
         <button id="button" type="submit">수정</button>
     </div>
 
     <script>
-        const title = document.querySelector("#title");
-        const content = document.querySelector("#content");
-        const writer = document.querySelector("#writer");
+        const boardNumberInput = document.querySelector("#boardNumber");
+        const titleInput = document.querySelector("#title");
+        const contentInput = document.querySelector("#content");
+        const writerInput = document.querySelector("#writer");
         
         const submitButton = document.querySelector("#button");
         
         submitButton.addEventListener("click", board_update);
 
         function board_update() { 
+            const boardNumber = boardNumberInput.value;
             const request = {
-                title: title.value,
-                content: content.value,
-                writer: writer.value
+                title: titleInput.value,
+                content: contentInput.value,
+                writer: writerInput.value
             }
-            // board_update/<int:pk>/
-            fetch("http://127.0.0.1:8000/board/board_update/6/", {
+
+            fetch(`http://127.0.0.1:8000/board/board_update/${boardNumber}/`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(request)
             })
+            .then(response => {
+                if (response.ok) {
+                    console.log("게시판 수정이 완료되었습니다.");
+                } else if (response.status === 404) {
+                    console.log("해당 번호의 게시판이 없습니다. 오류가 발생했습니다.");
+                } else {
+                    console.log("게시판 수정에 실패했습니다.");
+                }
+            })
+            .catch(error => {
+                console.log("오류가 발생했습니다:", error);
+            });
         }
     </script>
 </body>
