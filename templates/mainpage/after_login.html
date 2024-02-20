@@ -25,45 +25,44 @@
         <a href="../board/board_delete.html"><button type="button">글 삭제하기</button></a>
     </div>
 
-    <!--로그아웃/마이페이지 버튼-->
+    <!--로그아웃 버튼-->
     <div class="accounts_button">
         <a href="../mainpage/mainpage.html"><button type="button">로그아웃</button></a>
+    </div>
+
+    <div class="user_info">
         <span id="user_id"></span>
     </div>
 
     <script>
         // 사용자 정보 요청 함수
-        function fetchUserInfo(accessToken) {
-            fetch("http://127.0.0.1:8000/accounts/userinfo/", {
+        function fetchUserInfo(accessToken, username) {
+            // 액세스 토큰을 사용하여 사용자 정보 요청을 보냄
+            fetch(`http://127.0.0.1:8000/accounts/userinfo?username=${username}`, {
                 method: "GET", // GET 메서드로 요청
                 headers: {
                     "Authorization": `Bearer ${accessToken}` // 헤더에 액세스 토큰 포함
                 },
             })
             .then(response => {
+                console.log(response)
                 if (response.ok) {
-                    // 사용자 정보 요청이 성공한 경우
-                    return response.json(); // JSON 형식으로 응답을 파싱하여 반환
+                    return response.json();
                 } else {
-                    // 사용자 정보 요청이 실패한 경우
-                    throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+                    throw new Error('서버에서 오류가 발생했습니다.');
                 }
             })
+
+
             .then(data => {
-                // 응답으로부터 받은 사용자 정보를 처리
-                const username = data.username;
-                console.log("사용자 이름:", username);
+
             })
+
             .catch(error => {
                 // 오류 발생시
                 console.error("사용자 정보를 가져오는데 오류 발생:", error);
             });
         }
-        // 아이디 정보 표시
-        const userIdElement = document.getElementById("user_id");
-        const loggedInUserId = "사용자이름" + userIdElement; // 여기에 실제 사용자 아이디를 가져오는 코드를 작성해야 합니다.
-        userIdElement.textContent = loggedInUserId;
-        fetchUserInfo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzU3NTE5LCJpYXQiOjE3MDc3NTcyMTksImp0aSI6ImZiOWNkZGUzYjg3NjQxMzdhY2QxMTE2Yjc3ZDAyYjJmIiwidXNlcl9pZCI6N30.k1PktqDuUSyxebVI-1puNIWIHy66Aqtoo1Cz0zvsET8"); // 사용자 정보 요청 함수 호출
     </script>
 </body>
 </html>
