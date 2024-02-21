@@ -94,6 +94,20 @@ class BoardReadAPIView(APIView):
         
         return Response(response_data, status=status.HTTP_200_OK)
 
+# all read
+class BoardAllReadApi(APIView):
+    # <GET 요청을 처리하는 역할>
+    def get(self, requese):
+        # 모든 게시물을 가져옴
+        boards = Board.objects.all()
+        
+        # 가져온 게시물을 시리얼라이저를 통해 직렬화
+        serializer = BoardSerializers(boards, many = True)
+
+        # 직렬화된 데이터를 응답으로 반환
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 
 '''
