@@ -10,7 +10,7 @@
         <label>게시판 번호:</label><input id="boardNumber" type="number" placeholder="게시판 번호를 입력해주세요." required><br>
         <label>제목:</label><input id="title" type="text" placeholder="제목을 입력해주세요." required><br>
         <label>내용:</label><input id="content" type="text" placeholder="내용을 입력해주세요."><br>
-        <label>작성자:</label><input id="writer" type="text" placeholder="작성자를 입력해주세요."><br>
+        <!-- <label>작성자:</label><input id="writer" type="text" placeholder="작성자를 입력해주세요."><br> -->
         <button id="button" type="submit">수정</button>
     </div>
 
@@ -18,7 +18,9 @@
         const boardNumberInput = document.querySelector("#boardNumber");
         const titleInput = document.querySelector("#title");
         const contentInput = document.querySelector("#content");
-        const writerInput = document.querySelector("#writer");
+        // const writerInput = document.querySelector("#writer");
+        // 로컬 스토리지에서 username 가져옴
+        const writerInput = localStorage.getItem("username");
         
         const submitButton = document.querySelector("#button");
         
@@ -29,7 +31,7 @@
             const request = {
                 title: titleInput.value,
                 content: contentInput.value,
-                writer: writerInput.value
+                writer: writerInput
             }
 
             fetch(`http://127.0.0.1:8000/board/board_update/${boardNumber}/`, {
