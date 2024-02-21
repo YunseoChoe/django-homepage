@@ -12,6 +12,11 @@
             display: flex;
             flex-direction: column;
         }
+        .user_info {
+            margin-top: -5%;
+            float: right;
+            border: 2px solid green;
+        }
     </style>
 </head>
 <body>
@@ -30,39 +35,25 @@
         <a href="../mainpage/mainpage.html"><button type="button">로그아웃</button></a>
     </div>
 
+    <!--사용자 정보-->
+    <div class="user_info">
+        <span id="username"></span>
+    </div>
+
+    </div>
+
     <div class="user_info">
         <span id="user_id"></span>
     </div>
 
     <script>
-        // 사용자 정보 요청 함수
-        function fetchUserInfo(accessToken, username) {
-            // 액세스 토큰을 사용하여 사용자 정보 요청을 보냄
-            fetch(`http://127.0.0.1:8000/accounts/userinfo?username=${username}`, {
-                method: "GET", // GET 메서드로 요청
-                headers: {
-                    "Authorization": `Bearer ${accessToken}` // 헤더에 액세스 토큰 포함
-                },
-            })
-            .then(response => {
-                console.log(response)
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('서버에서 오류가 발생했습니다.');
-                }
-            })
+        // 로컬 스토리지에서 username 가져옴
+        const username = localStorage.getItem("username");
+        console.log(username)
 
-
-            .then(data => {
-
-            })
-
-            .catch(error => {
-                // 오류 발생시
-                console.error("사용자 정보를 가져오는데 오류 발생:", error);
-            });
-        }
+        // username을 담은 span요소를 가져와서 텍스트를 설정
+        const userIdElement = document.getElementById("username");
+        userIdElement.textContent = "Welcome " + username + "!";
     </script>
 </body>
 </html>
