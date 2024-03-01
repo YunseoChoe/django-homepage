@@ -3,9 +3,16 @@ from rest_framework.response import Response
 from rest_framework.views import APIView        
 from rest_framework import status
 from django.http import HttpResponse
-from .models import Board
+from .models import Board, Comment
 from rest_framework import generics
-from .serializers import BoardSerializers
+from .serializers import BoardSerializers, CommentSerializers
+from django.urls import path
+# from .views import BoardCreateAPIView
+# from .views import BoardUpdateAPIView
+# from .views import BoardDeleteAPIView
+# from .views import BoardReadAPIView
+from accounts.models import CustomUser
+from rest_framework.permissions import IsAuthenticated
 
 # create
 class BoardCreateAPIView(APIView):
@@ -107,6 +114,30 @@ class BoardAllReadApi(APIView):
         # 직렬화된 데이터를 응답으로 반환
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+# 댓글 작성
+class CommentAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, pk):
+        try:
+            # 게시판을 찾음
+            board_instance = Board.objects.get(pk=pk)
+        except Board.DoesNotExist:
+            return Response({"message": "게시판이 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 현재 로그인한 사용자를 댓글의 작성자로 지정 + 사용자 인증해줘야 함!
+        author = request.user # 현재 로그인한 사용자의 인스턴스
+
+        # 요청 데이터에서 댓글 정보 추출
+        text = request.data.get('text')
+
+        # 댓글 생성
+        comment = Comment.objects.create(author=author, text=text, post=board_instance)
+
+        # Serializer를 사용하여 JSON 응답 생성
+        serializer = CommentSerializers(comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
 
 
@@ -122,8 +153,3 @@ PATCH: 리소스의 일부 수정. 일반적으로 partial_update 메서드로 �
 DELETE: 리소스의 삭제. 일반적으로 destroy 메서드로 처리합니다. delete
 '''
 
-from django.urls import path
-from .views import BoardCreateAPIView
-from .views import BoardUpdateAPIView
-from .views import BoardDeleteAPIView
-from .views import BoardReadAPIView

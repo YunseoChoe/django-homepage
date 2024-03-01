@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Comment</title>
+</head>
+<body>
+
+<!-- 댓글을 작성하는 폼 -->
+<form id="commentForm">
+    <label for="commentText">댓글 내용:</label><br>
+    <textarea id="commentText" name="commentText" rows="4" cols="50"></textarea><br>
+    <button type="submit">댓글 작성</button>
+</form>
+
+<script>
+    // 댓글 작성 함수
+    function createComment() {
+        // API 엔드포인트 URL
+        const url = '/board/board_comment/11/';
+
+        // 로컬 스토리지에서 토큰 값을 가져오기
+        const token = localStorage.getItem('user_token');
+
+        // 요청 헤더 설정
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`  // Bearer 접두사와 함께 토큰 값 추가
+        };
+
+        // 댓글 내용 가져오기
+        const commentText = document.getElementById('commentText').value;
+
+        // 댓글 내용
+        const commentData = {
+            text: commentText
+        };
+
+        // API 호출
+        fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(commentData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('댓글 작성 결과:', data);
+            // 댓글 작성 성공 또는 실패에 따른 처리
+        })
+        .catch(error => {
+            console.error('댓글 작성 에러:', error);
+            // 에러 처리
+        });
+    }
+
+    // 댓글 작성 폼 제출 이벤트 리스너
+    document.getElementById('commentForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 기본 제출 동작 방지
+        createComment(); // 댓글 작성 함수 호출
+    });
+</script>
+
+</body>
+</html>

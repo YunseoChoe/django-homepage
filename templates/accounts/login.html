@@ -74,14 +74,17 @@
                     console.log("로그인에 성공했습니다.");
                     // 응답으로부터 액세스 토큰을 추출하여 사용자 정보 요청 함수 호출
                     response.json().then(data => {
-                        // const accessToken = data.access_token;
-                        // console.log("액세스 토큰: ", accessToken); // 토큰 값을 console에 출력
+                        const accessToken = data.access_token;
+                        console.log("액세스 토큰: ", accessToken); // 토큰 값을 console에 출력
                         // // 로그인할 때 사용한 사용자명을 가져와서 fetchUserInfo 함수에 전달
                         // const username = document.querySelector("#username").value;
                         // fetchUserInfo(accessToken, username);
 
                     // username을 로컬 스토리지에 저장
                     localStorage.setItem("username", username);
+
+                    // 토큰값을 로컬 스토리지에 저장
+                    localStorage.setItem('user_token', accessToken)
 
                     // 페이지 이동
                     window.location.href = "../mainpage/after_login.html";

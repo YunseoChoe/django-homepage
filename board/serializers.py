@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board
+from .models import Board, Comment
 
 # create
 class BoardSerializers(serializers.ModelSerializer):
@@ -11,3 +11,8 @@ class BoardSerializers(serializers.ModelSerializer):
         board = Board(**validated_data)
         board.save()
         return board
+
+class CommentSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['auther', 'post', 'text'] # Comment 모델의 필드 지정
