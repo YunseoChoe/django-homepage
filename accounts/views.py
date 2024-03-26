@@ -56,7 +56,7 @@ class LoginAPIView(APIView):
 #             # 요청을 사용하여 사용자를 인증합니다.
 #             user, _ = jwt_authentication.authenticate(request)
             
-#             # 인증된 사용자가 없으면 오류 반환
+#             # 인증된 사용자가 없으면 오류 반환 
 #             if not user:
 #                 return JsonResponse({'error': '유저를 찾을 수 없습니다.'}, status=400)
 #             # 인증된 사용자가 있을 경우, 유저 정보를 json으로 반환
