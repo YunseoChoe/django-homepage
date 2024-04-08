@@ -1,0 +1,155 @@
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView        
+from rest_framework import status
+from django.http import HttpResponse
+from .models import Board, Comment
+from rest_framework import generics
+from .serializers import BoardSerializers, CommentSerializers
+from django.urls import path
+# from .views import BoardCreateAPIView
+# from .views import BoardUpdateAPIView
+# from .views import BoardDeleteAPIView
+# from .views import BoardReadAPIView
+from accounts.models import CustomUser
+from rest_framework.permissions import IsAuthenticated
+
+# create
+class BoardCreateAPIView(APIView):
+    # <POST 요청을 처리하는 역할>
+    def post(self, request): # post 이름 바꾸려면 어떻게 해야 돼
+        # (클라이언트로부터 전달된) 데이터 추출
+        title = request.data.get('title')
+        content = request.data.get('content')
+        writer = request.data.get('writer')
+
+        # Board 모델 인스턴스 생성
+        board_instance = Board(title=title, content=content, writer=writer)
+
+        # 모델 인스턴스를 데이터베이스에 저장
+        board_instance.save() # save()는 django에서 제공해주는 메서드
+
+        # (저장된 데이터를 시리얼라이저를 통해 응답)
+        # 생성된 Board 객체를 시리얼라이저의 인스턴스로 전달하고,
+        # serializer.data를 통해 시리얼라이저화된 데이터를 가져온 후 응답
+        serializer = BoardSerializers(board_instance)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# update
+
+# update
+class BoardUpdateAPIView(APIView):
+    # <PATCH 요청을 처리하는 역할>
+    def patch(self, request, pk): # 함수 이름이 중요해..?
+        try:
+            # 게시판을 찾음
+            board_instance = Board.objects.get(pk=pk)
+        except Board.DoesNotExist:
+            return Response({"message": "게시판이 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+        # (클라이언트로부터 전달된) 데이터 추출
+        title = request.data.get('title')
+        content = request.data.get('content')
+        writer = request.data.get('writer')
+
+        # 데이터를 부분적으로 업데이트
+        if title:
+            board_instance.title = title
+        if content:
+            board_instance.content = content
+        if writer:
+            board_instance.writer = writer
+        # 모델 인스턴스를 데이터베이스에 저장
+        board_instance.save() # save()는 django에서 제공해주는 메서드
+
+        # 시리얼라이저를 통해 응답
+        serializer = BoardSerializers(board_instance)
+        return Response(serializer.data)
+
+# delete
+class BoardDeleteAPIView(APIView):
+    # <DELETE 요청을 처리하는 역할>
+    def delete(self, request, pk):
+        try:
+            # 게시판을 찾음
+            board_instance = Board.objects.get(pk=pk)
+        except Board.DoesNotExist:
+            return Response({"message": "게시판이 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # 게시판 삭제
+        board_instance.delete() # delete()는 django에서 제공해주는 메서드
+
+        # response = HttpResponse("게시판이 삭제되었습니다.")
+        # return response
+        return Response({"message": "게시판이 삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
+
+# read 
+class BoardReadAPIView(APIView):
+    # <GET 요청을 처리하는 역할>
+    def get(self, request, pk):
+        try:
+            # 게시판을 찾음
+            board_instance = Board.objects.get(pk=pk)
+        except Board.DoesNotExist:
+            return Response({"message": "게시판이 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # 게시판 조회
+        response_data = {
+            "title": board_instance.title,
+            "content": board_instance.content,
+            "writer": board_instance.writer,
+        }
+        
+        return Response(response_data, status=status.HTTP_200_OK)
+
+# all read
+class BoardAllReadApi(APIView):
+    # <GET 요청을 처리하는 역할>
+    def get(self, requese):
+        # 모든 게시물을 가져옴
+        boards = Board.objects.all()
+        
+        # 가져온 게시물을 시리얼라이저를 통해 직렬화
+        serializer = BoardSerializers(boards, many = True)
+
+        # 직렬화된 데이터를 응답으로 반환
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+# 댓글 작성
+class CommentAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request, pk):
+        try:
+            # 게시판을 찾음
+            board_instance = Board.objects.get(pk=pk)
+        except Board.DoesNotExist:
+            return Response({"message": "게시판이 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        # 현재 로그인한 사용자를 댓글의 작성자로 지정 + 사용자 인증해줘야 함!
+        author = request.user # 현재 로그인한 사용자의 인스턴스
+
+        # 요청 데이터에서 댓글 정보 추출
+        text = request.data.get('text')
+
+        # 댓글 생성
+        comment = Comment.objects.create(author=author, text=text, post=board_instance)
+
+        # Serializer를 사용하여 JSON 응답 생성
+        serializer = CommentSerializers(comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+
+'''
+Django REST Framework에서는 HTTP 요청 방식에 따라 메서드 이름을 지정해야 합니다.
+
+일반적으로 RESTful API에서는 다음과 같은 HTTP 요청 방식과 메서드의 관계가 있습니다:
+
+GET: 리소스의 조회. 일반적으로 get 메서드로 처리합니다. read
+POST: 새로운 리소스의 생성. 일반적으로 create 메서드로 처리합니다. creat
+PUT: 리소스의 전체적인 수정. 일반적으로 update 메서드로 처리합니다. update
+PATCH: 리소스의 일부 수정. 일반적으로 partial_update 메서드로 처리합니다. update
+DELETE: 리소스의 삭제. 일반적으로 destroy 메서드로 처리합니다. delete
+'''
+

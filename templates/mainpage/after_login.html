@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        .accounts_button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .user_info {
+            float: right;
+            border: 2px solid green;
+            background-color: #f0f0f0; /* 배경색 지정 */
+        }
+
+    </style>
+</head>
+<body>
+    <h1>최윤서의 홈페이지</h1>
+
+    <!--게시판 버튼-->
+    <div class="board_button">
+        <a href="../board/board_create.html"><button type="button">글 작성하기</button></a>
+        <a href="../board/board_read.html"><button type="button">글 조회하기</button></a>
+        <a href="../board/board_update.html"><button type="button">글 수정하기</button></a>
+        <a href="../board/board_delete.html"><button type="button">글 삭제하기</button></a>
+        <a href="../board/all_boards.html"><button type="button">글 전체 목록</button></a>
+    </div>
+
+    <!--로그아웃 버튼-->
+    <div class="accounts_button">
+        <a href="../mainpage/mainpage.html"><button type="button">로그아웃</button></a>
+    </div>
+
+    <!--사용자 정보-->
+    <div class="user_info">
+        <span id="username"></span>
+    </div>
+
+    </div>
+
+    <div class="user_info">
+        <span id="user_id"></span>
+    </div>
+
+    <script>
+        // 로컬 스토리지에서 username 가져옴
+        const username = localStorage.getItem("username");
+        console.log(username)
+
+        // username을 담은 span요소를 가져와서 텍스트를 설정
+        const userIdElement = document.getElementById("username");
+        userIdElement.textContent = "Welcome " + username + "!";
+    </script>
+</body>
+</html>

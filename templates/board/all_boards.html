@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전체 게시물 조회</title>
+
+    <style>
+        /* css */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+</head>
+<body>
+    <table id="boardTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+            </tr>
+        </thead>
+        <tbody id="boardData">
+            <!-- 여기에 데이터가 들어갈 것입니다. -->
+        </tbody>
+    </table>
+    
+    <script>
+        // 페이지 로드 시 자동으로 함수 실행
+        window.addEventListener('load', all);
+        
+        // 결과를 출력할 테이블 요소
+        const boardData = document.getElementById("boardData");
+        
+        // 전체 게시물을 가져오는 함수
+        function all() {
+            fetch("http://127.0.0.1:8000/board/board_all_read/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }) 
+            .then(response => response.json())
+            .then(data => {
+                // 결과를 화면에 표시
+                data.forEach(item => {
+                    const row = `
+                        <tr>
+                            <td>${item.writer}</td>
+                            <td>${item.title}</td>
+                            <td>${item.content}</td>
+                        </tr>
+                    `;
+                    boardData.innerHTML += row;
+                });
+            })
+        }
+    </script>
+    
+</body>
+</html>
